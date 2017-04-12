@@ -1,16 +1,15 @@
-%NewtonRaphson uygulama kodu
-function [x,iterSay]=NewtonRaphsonHaftaBes(x,epsilon)
-if nargin==1 % Hata tolarasýnýn girilmemesi durumu
-    epsilon=1.0e-6;%girilmemesi durumunda hata toleransý
+%fonksiyon1 : y=-(x^2-7*x+6)/(2*x-7);
+function [x,iterSay]=NewtonRaphsonHaftaBes(x,fonksiyon1,epsilon)
+if nargin==2% yukarýda gelen parametreler eksik ise 
+    epsilon=1.0e-6;% hata tolerans deðerini belirlemiþ.
 end
-dx=-(sin(x)-0.5*x)/(cos(x)-0.5);%Fonsksiyonun türevi 
-iterSay=0;
-while abs(dx)>epsilon && ~(iterSay==10)
-    iterSay=iterSay+1;%iterasyon sayýsýný her 
-    dx=-(sin(x)-0.5*x)/(cos(x)-0.5);
+for iterSay=1:30% 3o defa döngüsel þekile hesaplama yapýlacak
+    dx=feval(fonksiyon1,x);% türevi ile hesaplama
     x=x+dx;
-end
-if iterSay==10%iterasyon iþlemi 10 defadan fazla yapýlmýþ ise
-    error('Çok fazla iterasyon yapýldý.')
-end
+    if abs(dx)<epsilon% eðer sonuç tolerans deðerinden aþaðý ise 
+       return % program sonlandýrýlýr
+    end
+end 
+%30dan fazla iterasyon yapýldý ise  
+error('Çok fazla sayýda itersyon yapýldý..')
 end
